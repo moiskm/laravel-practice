@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Book extends Model
 {
@@ -38,4 +39,12 @@ class Book extends Model
         'stock' => 'integer',
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the digital resources associated with the book.
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany(BookResource::class);
+    }
 }
