@@ -47,4 +47,20 @@ class Book extends Model
     {
         return $this->hasMany(BookResource::class);
     }
+
+    /**
+     * Get the chapters associated with the book.
+     */
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(BookChapter::class)->whereNull('parent_id')->orderBy('order');
+    }
+
+    /**
+     * Get all chapters (including subchapters) associated with the book.
+     */
+    public function allChapters(): HasMany
+    {
+        return $this->hasMany(BookChapter::class)->orderBy('order');
+    }
 }
