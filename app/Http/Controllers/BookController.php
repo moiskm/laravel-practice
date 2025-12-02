@@ -65,15 +65,35 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        $book = Book::findOrFail($book->id);
+        return view('books.edit', compact('book'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, $id)
     {
-        //
+        $book = Book::findOrFail($id);
+
+        $validated = $request->validate([
+            'title'             => 'required|string|max:255',
+            'isbn'              => 'required|string|max:20',
+            'author'            => 'required|string|max:255',
+            'publisher'         => 'nullable|string|max:255',
+            'edition'           => 'nullable|string|max:50',
+            'publication_year'  => 'nullable|integer',
+            'subject'           => 'nullable|string|max:255',
+            'educational_level' => 'nullable|string|max:100',
+            'description'       => 'nullable|string',
+            'price'             => 'required|numeric',
+            'stock'             => 'required|integer',
+            'cover_image'       => 'nullable|string',
+            'is_active'         => 'boolean',
+        ]);
+
+        $book->update($validated);
+        return redirect()->route('books.index')->with('success', 'Libro actualizado con éxito.');
     }
 
     /**
