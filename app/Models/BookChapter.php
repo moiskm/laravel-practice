@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+//Importación de clases
+
+
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;//relaciones
+
+use Illuminate\Database\Eloquent\Relations\HasMany;//relaciones
 
 class BookChapter extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
+//campos que se pueden actualizar o guardar.
     protected $fillable = [
         'book_id',
         'parent_id',
@@ -24,51 +26,38 @@ class BookChapter extends Model
         'is_active',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+//?
     protected $casts = [
         'order' => 'integer',
         'is_active' => 'boolean',
     ];
 
-    /**
-     * Get the book that owns the chapter.
-     */
+//Cada capítulo pertenece a un Book.//muchos a uno
+
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
     }
 
-    /**
-     * Get the parent chapter (if this is a subchapter/topic).
-     */
+
+//Capítulo tiene un padre
     public function parent(): BelongsTo
     {
         return $this->belongsTo(BookChapter::class, 'parent_id');
     }
-
-    /**
-     * Get the child chapters (subchapters/topics).
-     */
+//Capítulo tiene subcapítulos
     public function children(): HasMany
     {
         return $this->hasMany(BookChapter::class, 'parent_id')->orderBy('order');
     }
 
-    /**
-     * Scope a query to only include main chapters (no parent).
-     */
+//Filtra solo capítulos principales
     public function scopeMainChapters($query)
     {
         return $query->whereNull('parent_id');
     }
 
-    /**
-     * Scope a query to only include subchapters (has parent).
-     */
+//Filtra solo subcapítulos
     public function scopeSubchapters($query)
     {
         return $query->whereNotNull('parent_id');
