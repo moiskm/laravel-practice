@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class BookResource extends Model
 {
     /**
+     * Tipos permitidos de recursos.
+   
+     */
+    public const TYPES = ['pdf', 'video', 'audio', 'game'];
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
