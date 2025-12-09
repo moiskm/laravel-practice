@@ -8,6 +8,7 @@ use App\Http\Controllers\BookResourceController;
 
 //---------------------------------------------------------
 use App\Http\Controllers\BookChapterController;
+use App\Http\Controllers\BookController;
 
 
 Route::get('/book-resources', [BookResourceController::class, 'index']);
@@ -24,3 +25,13 @@ Route::delete('/book-chapters/{bookChapter}', [BookChapterController::class, 'de
 Route::get('/book-chapters/{bookChapter}', [BookChapterController::class, 'show']);
 Route::put('/book-chapters/{bookChapter}', [BookChapterController::class, 'update']);
 Route::patch('/book-chapters/{bookChapter}', [BookChapterController::class, 'update']);
+
+//---------------------------------------------------------
+
+
+Route::get('/books', [BookController::class, 'index']);
+Route::post('/books', [BookController::class, 'store']);
+Route::get('/books/{book}', [BookController::class, 'show']);
+Route::put('/books/{book}', [BookController::class, 'update']);
+Route::patch('/books/{book}', [BookController::class, 'update']);
+Route::delete('/books/{book}', [BookController::class, 'destroy']);
